@@ -52,3 +52,7 @@ Para usar o painel publicado, defina `window.JUMANJI_API_ORIGIN` em `web/runtime
 
 Sem API configurada, o endereço `github.io` abre automaticamente em modo demonstração offline, com navegação e dados fictícios para validar o design. Para dados reais, hospede o backend Node e preencha a URL no arquivo de configuração.
 
+### Deploy gratuito recomendado
+
+O arquivo `render.yaml` configura o backend como Web Service Free no Render. No painel do Render, escolha `New → Blueprint`, conecte este repositório e preencha os segredos marcados como `sync: false`. Depois copie a URL `https://...onrender.com` para `web/runtime-config.js`, defina `WEB_ORIGIN` com essa mesma URL e mantenha `PANEL_ORIGIN` como o endereço do Pages. Registre `https://...onrender.com/api/auth/callback` no Discord Developer Portal.
+
