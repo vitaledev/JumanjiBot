@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1018">
+  <meta name="description" content="Jumanji — a central da sua comunidade no Discord.">
+  <title>Jumanji · Central da comunidade</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./runtime.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Ir para o conteúdo</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><div class="brand-mark">J</div><div><strong>JUMANJI</strong><small>BASE DE OPERAÇÕES</small></div></div>
+      <div class="sidebar-section"><label class="guild-label" for="guild">Servidor ativo</label><div class="guild-control"><span class="server-dot"></span><select id="guild" aria-label="Servidor"><option value="">Entre para escolher</option></select></div></div>
+      <nav id="navigation" aria-label="Navegação principal"></nav>
+      <div class="sidebar-bottom"><p id="connection" class="status" role="status"><i></i>Aguardando autenticação</p><button id="logout" class="secondary-button" hidden>Sair da conta</button></div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><button id="menu" class="secondary-button" aria-controls="sidebar" aria-expanded="false">☰ Menu</button><span class="mobile-brand">JUMANJI</span><span class="breadcrumb">CENTRAL <b>/</b> JUMANJI RPG</span><div class="top-actions"><span class="presence"><i></i> sistema online</span><span id="identity">Visitante</span><a class="primary-button" id="login" href="/api/auth/login">Entrar com Discord <span>↗</span></a></div></header>
+      <section class="content-wrap" id="content" tabindex="-1"><div class="hero-row"><div><p class="eyebrow">TEMPORADA 01 <span>•</span> OPERAÇÃO EM ANDAMENTO</p><h1 id="pageTitle">Sua história<br><em>começa aqui.</em></h1><p class="hero-copy" id="pageDescription">Entre com Discord para acompanhar sua divisão e participar do RPG.</p></div><button id="refresh" class="secondary-button" hidden>↻ Atualizar</button></div><div id="feedback" role="status" aria-live="polite"></div><div id="toolbar" class="toolbar"></div><div id="view"></div><div id="pagination" class="pagination"></div></section>
+    </main>
+  </div>
+  <dialog id="editor" aria-labelledby="dialogTitle"><form id="editorForm"><div class="dialog-heading"><h2 id="dialogTitle"></h2><button type="button" id="closeDialog" class="secondary-button" aria-label="Fechar">×</button></div><p id="dialogDescription"></p><div id="fields"></div><p id="formError" role="alert"></p><div class="dialog-actions"><button type="submit" id="submitForm" class="primary-button">Confirmar</button></div></form></dialog>
+  <script src="./runtime-config.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

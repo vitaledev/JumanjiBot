@@ -1,0 +1,13 @@
+import { loadConfig } from "./config.js";
+import { Database } from "./infrastructure/database.js";
+import { Store } from "./core/store.js";
+import { GameService } from "./core/service.js";
+import { DiscordRuntime } from "./discord/runtime.js";
+import { Files } from "./http/files.js";
+import { JobRunner } from "./infrastructure/jobs.js";
+const config=loadConfig(),database=new Database(config.DATABASE_URL,config.SUPABASE_URL,config.SUPABASE_SERVICE_ROLE_KEY),service=new GameService(new Store(database),config.PRIVACY_SECRET??config.SESSION_SECRET);
+const discord=new DiscordRuntime(service,{...config,ENABLE_MESSAGE_ACTIVITY:false,ENABLE_VOICE_ACTIVITY:false,ENABLE_REACTION_ACTIVITY:false,ENABLE_MEMBER_EVENTS:false});
+await discord.start(false);
+const runner=new JobRunner(service,discord,new Files(database,config.FILES_DIR));runner.start();
+let stopping=false;const stop=async()=>{if(stopping)return;stopping=true;await runner.stop();await discord.stop();await database.close();};
+process.once("SIGINT",()=>{void stop();});process.once("SIGTERM",()=>{void stop();});
