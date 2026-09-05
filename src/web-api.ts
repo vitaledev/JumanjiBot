@@ -21,6 +21,9 @@ async function readJson(request:IncomingMessage):Promise<unknown> {
 }
 export function createWebServer(service:GameService,auth:Auth,files:Files) {
   return createServer(async(request,response)=>{
+    const requestOrigin=String(request.headers.origin??"");
+    if(requestOrigin===auth.options.origin || requestOrigin===auth.panelOrigin){response.setHeader("Access-Control-Allow-Origin",requestOrigin);response.setHeader("Access-Control-Allow-Credentials","true");response.setHeader("Access-Control-Allow-Headers","Content-Type, X-CSRF-Token");response.setHeader("Access-Control-Allow-Methods","GET,HEAD,POST,OPTIONS");response.setHeader("Vary","Origin");}
+    if(request.method==="OPTIONS") {response.writeHead(204);response.end();return;}
     response.setHeader("X-Content-Type-Options","nosniff");response.setHeader("Referrer-Policy","same-origin");
     response.setHeader("Content-Security-Policy","default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https://cdn.discordapp.com data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
     response.setHeader("Cache-Control","no-store");
@@ -86,3 +89,4 @@ export function createWebServer(service:GameService,auth:Auth,files:Files) {
     }
   });
 }
+
