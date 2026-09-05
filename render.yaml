@@ -42,5 +42,7 @@ services:
       - key: WEB_ORIGIN
         sync: false
       - key: PANEL_ORIGIN
+        value: https://vitaledev.github.io
+      - key: PANEL_URL
         value: https://vitaledev.github.io/JumanjiBot
 
