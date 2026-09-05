@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: jumanji-bot
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /health/live
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: WEB_HOST
+        value: 0.0.0.0
+      - key: WEB_PORT
+        value: 10000
+      - key: RUN_WORKER
+        value: "true"
+      - key: DISCORD_TOKEN
+        sync: false
+      - key: DISCORD_CLIENT_ID
+        sync: false
+      - key: DISCORD_CLIENT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: PRIVACY_SECRET
+        generateValue: true
+      - key: WEB_ORIGIN
+        sync: false
+      - key: PANEL_ORIGIN
+        value: https://vitaledev.github.io/JumanjiBot
+
