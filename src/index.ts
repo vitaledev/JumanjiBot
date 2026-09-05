@@ -13,7 +13,7 @@ await database.query("SELECT 1 FROM schema_migrations WHERE name='002_runtime.sq
 const service=new GameService(new Store(database),config.PRIVACY_SECRET??config.SESSION_SECRET);
 const discord=new DiscordRuntime(service,config),files=new Files(database,config.FILES_DIR);
 await discord.start();
-const auth=new Auth(database,discord,{origin:config.WEB_ORIGIN,frontendOrigin:config.PANEL_ORIGIN??config.WEB_ORIGIN,clientId:config.DISCORD_CLIENT_ID,secure:config.NODE_ENV==="production"});
+const auth=new Auth(database,discord,{origin:config.WEB_ORIGIN,frontendOrigin:config.PANEL_ORIGIN??config.WEB_ORIGIN,frontendUrl:config.PANEL_URL??config.PANEL_ORIGIN??config.WEB_ORIGIN,clientId:config.DISCORD_CLIENT_ID,secure:config.NODE_ENV==="production"});
 const server=createWebServer(service,auth,files),runner=new JobRunner(service,discord,files);
 server.listen(config.WEB_PORT,config.WEB_HOST,()=>console.log(JSON.stringify({level:"info",event:"web.ready",origin:config.WEB_ORIGIN})));
 if(config.RUN_WORKER)runner.start();
