@@ -15,6 +15,14 @@ services:
         value: 10000
       - key: RUN_WORKER
         value: "true"
+      - key: ENABLE_MESSAGE_ACTIVITY
+        value: "false"
+      - key: ENABLE_MEMBER_EVENTS
+        value: "false"
+      - key: ENABLE_VOICE_ACTIVITY
+        value: "false"
+      - key: ENABLE_REACTION_ACTIVITY
+        value: "false"
       - key: DISCORD_TOKEN
         sync: false
       - key: DISCORD_CLIENT_ID
