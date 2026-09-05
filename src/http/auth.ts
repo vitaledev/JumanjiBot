@@ -7,7 +7,7 @@ export interface IdentityProvider {
   exchange(code:string,redirect:string):Promise<Identity>;
   authorize(guildId:string,user:Identity):Promise<Actor>;
 }
-export type AuthOptions={origin:string;frontendOrigin?:string;clientId:string;secure:boolean};
+export type AuthOptions={origin:string;frontendOrigin?:string;frontendUrl?:string;clientId:string;secure:boolean};
 const hash=(v:string)=>createHash("sha256").update(v).digest("hex");
 const token=()=>randomBytes(32).toString("base64url");
 export function cookie(request:IncomingMessage,name:string):string|undefined {return request.headers.cookie?.split(";").map(p=>p.trim()).find(p=>p.startsWith(`${name}=`))?.slice(name.length+1);}
@@ -15,6 +15,7 @@ export function equal(a:string,b:string):boolean {const x=Buffer.from(a),y=Buffe
 export class Auth {
   constructor(public database:Database,public provider:IdentityProvider,public options:AuthOptions){}
   get panelOrigin():string {return this.options.frontendOrigin??this.options.origin;}
+  get panelUrl():string {return this.options.frontendUrl??this.panelOrigin;}
   setCookie(response:ServerResponse,name:string,value:string,seconds:number):void {const crossOrigin=this.options.origin!==this.panelOrigin;response.setHeader("Set-Cookie",`${name}=${value}; Path=/; HttpOnly; SameSite=${crossOrigin?"None":"Lax"}; Max-Age=${seconds}${this.options.secure||crossOrigin?"; Secure":""}`);}
   async route(request:IncomingMessage,response:ServerResponse,url:URL):Promise<boolean> {
     if(url.pathname==="/api/auth/login" && request.method==="GET") {
@@ -29,7 +30,7 @@ export class Auth {
       requireRule((await this.database.query("DELETE FROM oauth_states WHERE state_hash=$1 AND expires_at>NOW() RETURNING state_hash",[hash(state)])).rowCount,"Login expirado ou já utilizado",401);
       const user=await this.provider.exchange(code,`${this.options.origin}/api/auth/callback`);
       const session=await this.create(user);this.setCookie(response,"jumanji_session",session.token,86400);
-      response.writeHead(302,{Location:`${this.panelOrigin}/`});response.end();return true;
+      response.writeHead(302,{Location:`${this.panelUrl}/`});response.end();return true;
     }
     return false;
   }
