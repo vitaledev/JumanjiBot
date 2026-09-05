@@ -227,7 +227,7 @@ export class DiscordRuntime implements IdentityProvider, Effects {
           missions.addFields({name:`${done?"✅":"🎯"} ${d.name??"Missão da base"}`,value:`${bar} **${progress}/${target}**\n${done?"Concluída · recompensa entregue":"Em andamento · continue participando"}${d.reward?.xp?`\nRecompensa: **+${d.reward.xp} XP**`:""}`,inline:false});
         }
         if(assignments.length>8)missions.setFooter({text:`Mostrando 8 de ${assignments.length} missões · abra o painel para ver todas`});
-        await i.editReply({embeds:[missions],components:[new ActionRowBuilder<ButtonBuilder>().addComponents(new ButtonBuilder().setCustomId("jm-page:missoes").setLabel("↻ Atualizar progresso").setStyle(ButtonStyle.Success),new ButtonBuilder().setCustomId("jm-form:proof.submit").setLabel("Enviar prova externa").setStyle(ButtonStyle.Primary),new ButtonBuilder().setURL(`${this.config.WEB_ORIGIN}/#assignment`).setLabel("Abrir painel completo").setStyle(ButtonStyle.Link))]});return;
+        await i.editReply({embeds:[missions],components:[new ActionRowBuilder<ButtonBuilder>().addComponents(new ButtonBuilder().setCustomId("jm-page:missoes").setLabel("↻ Atualizar progresso").setStyle(ButtonStyle.Success),new ButtonBuilder().setCustomId("jm-form:proof.submit").setLabel("Enviar prova externa").setStyle(ButtonStyle.Primary),new ButtonBuilder().setURL(`${this.config.PANEL_ORIGIN}/#assignment`).setLabel("Abrir painel completo").setStyle(ButtonStyle.Link))]});return;
       }
       const rows:ActionRowBuilder<ButtonBuilder|StringSelectMenuBuilder>[]=[];
       const buttons:ButtonBuilder[]=[];
@@ -237,7 +237,7 @@ export class DiscordRuntime implements IdentityProvider, Effects {
       if(page==="missoes")buttons.push(new ButtonBuilder().setCustomId("jm-form:proof.submit").setLabel("Enviar prova externa").setStyle(ButtonStyle.Primary));
       if(page==="eventos")for(const event of (view.items??[]).filter((v:any)=>v.status==="ACTIVE").slice(0,3))buttons.push(new ButtonBuilder().setCustomId(`jm-action:event.rsvp:${event.id}`).setLabel(`Participar: ${event.data.name}`.slice(0,80)).setStyle(ButtonStyle.Primary));
       if(page==="batalhas")buttons.push(new ButtonBuilder().setCustomId("jm-form:battle.strategy").setLabel("Escolher estratégia").setStyle(ButtonStyle.Primary));
-      buttons.push(new ButtonBuilder().setURL(`${this.config.WEB_ORIGIN}/#${mapping[page]??"dashboard"}`).setLabel("Abrir painel completo").setStyle(ButtonStyle.Link));
+      buttons.push(new ButtonBuilder().setURL(`${this.config.PANEL_ORIGIN}/#${mapping[page]??"dashboard"}`).setLabel("Abrir painel completo").setStyle(ButtonStyle.Link));
       rows.push(new ActionRowBuilder<ButtonBuilder>().addComponents(buttons.slice(0,5)));
       if(page==="painel")rows.push(new ActionRowBuilder<ButtonBuilder>().addComponents(["perfil","missoes","divisao","eventos","privacidade"].map(p=>new ButtonBuilder().setCustomId(`jm-page:${p}`).setLabel(p).setStyle(ButtonStyle.Secondary))));
       const description=page==="iniciar"?"Ao aceitar, você autoriza o registro da sua participação, atividades elegíveis e progresso do RPG. Você pode exportar seus dados e sair a qualquer momento pelo painel ou /privacidade.":page==="privacidade"?"A saída remove seu perfil e interrompe recompensas. Registros contábeis usam identificador protegido para evitar duplicações. Confirme somente se deseja sair.":view.items?view.items.slice(0,10).map((r:any)=>`${r.data?.name??r.name??r.display_name??r.action??r.id} • ${r.status??`${r.xp??0} XP`}\n${r.id??""}`).join("\n\n")||"Nenhum registro disponível.":`Servidor: ${view.settings?.name??"Jumanji"}\n${view.member?.participation==="active"?`${view.member.xp} XP • ${view.member.credits} créditos cosméticos`:"Use /iniciar para participar."}`;
@@ -246,3 +246,4 @@ export class DiscordRuntime implements IdentityProvider, Effects {
   }
   async stop():Promise<void>{if(this.voiceTimer)clearInterval(this.voiceTimer);for(const timer of this.messageTimers.values())clearTimeout(timer);this.voiceStarts.clear();await this.client.destroy();}
 }
+
