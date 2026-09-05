@@ -49,3 +49,6 @@ Veja [IMPLEMENTATION.md](IMPLEMENTATION.md) para cobertura, limitações conheci
 O workflow em `.github/workflows/pages.yml` publica a pasta `web` automaticamente no GitHub Pages. O painel abre como frontend estático; login Discord, sessões e dados do RPG continuam dependendo do backend Node em execução.
 
 Para usar o painel publicado, defina `window.JUMANJI_API_ORIGIN` em `web/runtime-config.js` com a URL HTTPS pública do backend e configure no Discord OAuth a callback correspondente. O banco Supabase permanece acessado exclusivamente pelo backend; nenhuma chave privada deve ir para o Pages.
+
+Sem API configurada, o endereço `github.io` abre automaticamente em modo demonstração offline, com navegação e dados fictícios para validar o design. Para dados reais, hospede o backend Node e preencha a URL no arquivo de configuração.
+
