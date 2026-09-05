@@ -54,5 +54,5 @@ Sem API configurada, o endereço `github.io` abre automaticamente em modo demons
 
 ### Deploy gratuito recomendado
 
-O arquivo `render.yaml` configura o backend como Web Service Free no Render. No painel do Render, escolha `New → Blueprint`, conecte este repositório e preencha os segredos marcados como `sync: false`. Depois copie a URL `https://...onrender.com` para `web/runtime-config.js`, defina `WEB_ORIGIN` com essa mesma URL e mantenha `PANEL_ORIGIN` como o endereço do Pages. Registre `https://...onrender.com/api/auth/callback` no Discord Developer Portal.
+O arquivo `render.yaml` configura o backend como Web Service Free no Render. No painel do Render, escolha `New → Blueprint`, conecte este repositório e preencha os segredos marcados como `sync: false`. Depois copie a URL `https://...onrender.com` para `web/runtime-config.js`, defina `WEB_ORIGIN` com essa mesma URL, `PANEL_ORIGIN=https://vitaledev.github.io` e `PANEL_URL=https://vitaledev.github.io/JumanjiBot`. Registre `https://...onrender.com/api/auth/callback` no Discord Developer Portal.
 
